@@ -1,7 +1,15 @@
 package main
 
-import "github.com/gianlucarea/pokedex/repl"
+import (
+	"time"
+
+	"github.com/gianlucarea/pokedex/pokeapi"
+)
 
 func main() {
-	repl.Start()
+	pokeClient := pokeapi.NewClient(5 * time.Second)
+	cfg := &config{
+		apiClient: pokeClient,
+	}
+	Start(cfg)
 }

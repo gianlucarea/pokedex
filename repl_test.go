@@ -1,9 +1,7 @@
-package tests
+package main
 
 import (
 	"testing"
-
-	"github.com/gianlucarea/pokedex/repl"
 )
 
 func TestCleanInput(t *testing.T) {
@@ -26,7 +24,7 @@ func TestCleanInput(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		actual := repl.CleanInput(c.input)
+		actual := CleanInput(c.input)
 		if len(actual) != len(c.expected) {
 			t.Errorf("Length mismatch for input %q: got %d words, want %d", c.input, len(actual), len(c.expected))
 			continue

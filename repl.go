@@ -53,6 +53,11 @@ var supportedCMD map[string]cliCommand = map[string]cliCommand{
 		description: "Catch a Pokemon",
 		callback:    cmdCatch,
 	},
+	"inspect": {
+		name:        "inspect",
+		description: "Inspect a caught Pokemon",
+		callback:    cmdInspect,
+	},
 }
 
 func Start(cfg *config) {

@@ -13,12 +13,13 @@ type config struct {
 	apiClient pokeapi.Client
 	next      *string
 	previous  *string
+	pokedex   map[string]pokeapi.RespPokemon
 }
 
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, []string) error
 }
 
 var supportedCMD map[string]cliCommand = map[string]cliCommand{
@@ -42,6 +43,16 @@ var supportedCMD map[string]cliCommand = map[string]cliCommand{
 		description: "Previous Map Locations",
 		callback:    cmdMapb,
 	},
+	"explore": {
+		name:        "explore",
+		description: "Explore Locations",
+		callback:    cmdExplore,
+	},
+	"catch": {
+		name:        "catch",
+		description: "Catch a Pokemon",
+		callback:    cmdCatch,
+	},
 }
 
 func Start(cfg *config) {
@@ -55,11 +66,10 @@ func Start(cfg *config) {
 			fmt.Println("Unknown command")
 			continue
 		}
-		cmd.callback(cfg)
+		cmd.callback(cfg, words[1:])
 	}
 }
 
 func CleanInput(text string) []string {
-	text = strings.ToLower(text)
 	return strings.Fields(text)
 }

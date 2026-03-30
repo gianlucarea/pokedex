@@ -58,6 +58,11 @@ var supportedCMD map[string]cliCommand = map[string]cliCommand{
 		description: "Inspect a caught Pokemon",
 		callback:    cmdInspect,
 	},
+	"pokedex": {
+		name:        "pokedex",
+		description: "List all caught Pokemon",
+		callback:    cmdPokedex,
+	},
 }
 
 func Start(cfg *config) {
@@ -65,13 +70,17 @@ func Start(cfg *config) {
 	for {
 		fmt.Print("Pokedex > ")
 		scanner.Scan()
-		words := CleanInput(scanner.Text())
-		cmd, ok := supportedCMD[words[0]]
-		if !ok {
-			fmt.Println("Unknown command")
-			continue
+		text := scanner.Text()
+		if len(text) != 0 {
+			words := CleanInput(text)
+
+			cmd, ok := supportedCMD[words[0]]
+			if !ok {
+				fmt.Println("Unknown command")
+				continue
+			}
+			cmd.callback(cfg, words[1:])
 		}
-		cmd.callback(cfg, words[1:])
 	}
 }
 
